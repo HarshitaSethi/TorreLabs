@@ -1,0 +1,50 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 12, 2021, 12:10:52 PM
+    Author     : harshita.sethi
+*/
+
+.profile-head {
+    transform: translateY(5rem)
+}
+
+body {
+    background: url(../images/remote-job.jpg) no-repeat 50% 50%;
+    /*background: linear-gradient(to right, #e96443, #904e95);*/
+    min-height: 100vh;
+    background-attachment: fixed;
+
+}
+
+header {
+    height: 100%;
+}
+
+.titleDiv{
+    height: 100%;
+}
+
+.bg-black-with-opacity{
+    /*background: rgba(0,0,0,0.6);*/
+    background-color: #F5F7FA;
+    color: #FFF;
+}
+
+.titleDiv ul.list-unstyled li button {
+    border: 1px solid #efefef;
+    background: transparent;
+    padding: 0 10px;
+    color:#eee;
+    /*text-transform:uppercase;*/
+    transition:.5s ease;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.titleDiv ul.list-unstyled li {
+    font-size: 13px;
+}

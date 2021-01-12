@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Torre</title>
+        <link rel="shortcut icon" type="image/png" href="images/favicon.ico"/> 
+
+        <!--For Navbar-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css"/>
+
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/navbar.css">
+
+
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/search.css">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+    </head>
+    <body ng-app="searchPeople" ng-controller="PeopleController">
+        <div class="loader"></div>
+        <div class="wrapper"  id="main-wrapper">
+            <header>
+                <div includeHtml="templates/navbar.html"></div>
+                <div class="d-flex flex-column justify-content-center align-items-center titleDiv">
+                    <div class="s007">
+                        <form>
+                            <div class="inner-form">
+                                <div class="basic-search">
+                                    <div class="input-field">
+                                        <div class="icon-wrap">
+                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+                                            <path d="M18.869 19.162l-5.943-6.484c1.339-1.401 2.075-3.233 2.075-5.178 0-2.003-0.78-3.887-2.197-5.303s-3.3-2.197-5.303-2.197-3.887 0.78-5.303 2.197-2.197 3.3-2.197 5.303 0.78 3.887 2.197 5.303 3.3 2.197 5.303 2.197c1.726 0 3.362-0.579 4.688-1.645l5.943 6.483c0.099 0.108 0.233 0.162 0.369 0.162 0.121 0 0.242-0.043 0.338-0.131 0.204-0.187 0.217-0.503 0.031-0.706zM1 7.5c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5-6.5-2.916-6.5-6.5z"></path>
+                                            </svg>
+                                        </div>
+                                        <input id="search" type="text" placeholder="Search People..." ng-model="name"/>
+                                        <div class="result-count">
+                                            <span>{{formatNumberWithComma(totalResult)}} </span>results
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="advance-search">
+                                    <span class="desc">Matching talent with opportunities.</span>
+                                    <div class="row">
+                                        <div class="input-field">
+                                            <div class="input-select">
+                                                <select class="form-control search-slt" ng-model="openTo" 
+                                                        ng-options="item.value +             ' (' +             formatNumber(item.total) +             ')' for item in aggregators.opento">
+                                                    <option value="" disabled selected hidden>Open To</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="input-field">
+                                            <div class="input-select">
+                                                <select class="form-control search-slt"
+                                                        ng-model="skill" ng-options="item.value +            ' (' +            formatNumber(item.total) +            ')' for item in aggregators.skill| filter:item.value">
+                                                    <option value="" disabled selected hidden>Skills</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="input-field">
+                                            <div class="input-select">
+                                                <select class="form-control search-slt"
+                                                        ng-model="compensationrange" ng-options="item.value +             ' (' +             formatNumber(item.total) +             ')' for item in aggregators.compensationrange">
+                                                    <option value="" disabled selected hidden>Compensation Range</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row second">
+                                        <div class="input-field">
+                                            <button class="btn-search" ng-click="searchPeople()">Search</button>
+                                            <button class="btn-search btn-reset" ng-click="reset()">Reset Filter</button>
+                                        </div>
+                                        <div class="input-field">
+                                            <input type="checkbox" ng-model="remoter" name="remoter" value="true">
+                                            <label for="remoter">{{'Remote (' + formatNumber(remotePeopleCount) + ')'}}</label>
+                                        </div>
+                                        <div class="input-field">
+                                            <div class="input-select">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content" ng-show="resultObtained" id="search-content">
+                <div class="container-fluid">
+                    <div class="main-content">
+                        <h2><span>&nbsp;</span>Search Result</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Showing {{formatNumberWithComma(offset + 1)}} - {{formatNumberWithComma(offset + size)}} out of {{formatNumberWithComma(totalCount)}} result</p>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="pagination justify-content-end">
+                                    <li class="{{'page-item ' + disableClassOnZeroOffset}}">
+                                        <a class="page-link" ng-click="searchPrev()" tabindex="-1">Previous</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" ng-click="searchNext()">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="row pb-5 mb-4">
+                            <div class="col-lg-6 col-md-6 mb-4 mb-lg-0"  ng-repeat="item in searchPeopleList">
+                                <!-- Card-->
+                                <div class="card shadow-sm border-0 rounded searchCard">
+                                    <div class="row ">
+                                        <div class="col-sm-5">
+                                            <div class="card-body text-center">
+                                                <img class="d-block w-100" src="{{item.picture}}" alt="">
+                                                <h5 class="mt-3 mb-0 font-weight-bold text-center">{{item.name}}</h5>
+                                                <a href="{{'Genome.html?' + item.username}}" class="btn btn-primary btn-sm">View Genome</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="card-body">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item list-group-item-info"><i class="fa fa-user"></i>&emsp;{{item.professionalHeadline}}</li>
+                                                    <li class="list-group-item list-group-item-info"><i class="fa fa-map-marker"></i>&emsp;{{item.locationName}}</li>
+                                                    <li class="list-group-item list-group-item-info"><i class="fa fa-clock-o"></i>&emsp;<span ng-repeat="key in item.openTo">{{key + ','}}&nbsp;</span></li>
+                                                    <li class="list-group-item list-group-item-info"><i class="fa fa-usd" ></i>   <span ng-repeat="(key, comp) in item.compensations">{{key + ' - ' + comp.amount + ' ' + comp.currency + '/' + comp.periodicity}}<br/></span></li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </main>
+            <div includeHtml="templates/footer.html"></div>
+        </div>
+
+        <div class="top-button" id="topButton" ng-show="resultObtained">
+            <a href="#"><i class="fa fa-search" title="ModifySearch"></i></a> 
+        </div>
+
+        <script src="js/includeTemplate.js"></script>
+        <script src="js/util.js"></script>
+        <script src="js/findPeople.js"></script>
+
+    </body>
+</html>

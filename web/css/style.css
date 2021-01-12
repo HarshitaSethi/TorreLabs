@@ -1,0 +1,133 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 10, 2021, 3:13:12 PM
+    Author     : harshita.sethi
+*/
+
+html {
+    scroll-behavior: smooth;
+}
+
+body{
+    background-color: #F5F7FA;
+}
+
+
+.caption{
+    background-color: #111;
+    color: #fff;
+    padding: 18px;
+    font-size: 25px;
+    letter-spacing: 5px;
+    border:1px solid white;
+}
+
+.text-blue{
+    color: #16c7ff;
+}
+
+.modal-content{
+    background: #333 !important;
+    color: white;
+}
+
+.modal-content label{
+    color: white;
+}
+
+.modal-content .modal-header>button{
+    color: white;
+}
+
+.card{
+    height: calc(100% - 15px);
+    margin-bottom: 15px !important;
+}
+
+.card-img-overlay{
+    background: rgba(0,0,0,0.5);
+    color:white;
+}
+
+.loader {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 1000;
+    border: 3px solid rgba(200, 200, 200, 0.5);
+    border-radius: 50%;
+    border-top: 3px solid #111;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.titleDiv{
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    color: white;
+}
+
+.titleDiv > ul {
+    margin-top: 100px;
+}
+.titleDiv > ul li{
+    display:inline-flex;
+    padding:10px;
+}
+.titleDiv ul.list-unstyled li a {
+    border: 1px solid #F2F2F2;
+    padding: 10px 20px;
+    color:#fff;
+    text-transform:uppercase;
+    transition:.5s ease;
+    cursor: pointer;
+    font-weight: bold;
+}
+.titleDiv ul.list-unstyled li a:hover{
+    background:#EE3866;
+    text-decoration:none;
+    color:#fff;
+    border: 1px solid #EE3866;
+}
+
+.main-content > h2 {
+    font-size: 25px;
+    text-align: center;
+    /*text-transform: uppercase;*/
+    margin-bottom:50px;
+    margin-top:0;
+    position:relative;
+    text-transform: uppercase;
+}
+.main-content > h2 span::before {
+    background: red none repeat scroll 0 0;
+    content: "";
+    height: 37px;
+    /*left: 44%;*/
+    position: absolute;
+    width: 1px;
+}
+.main-content > h2::before {
+    background: red none repeat scroll 0 0;
+    content: "";
+    height: 1px;
+    /*left: 44%;*/
+    position: absolute;
+    top: 36px;
+    width: 150px;
+}
