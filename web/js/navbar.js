@@ -11,7 +11,7 @@ $(document).ready(function () {
 
 
     signInOut();
-    
+
     $('#logout').on('click', function () {
         localStorage.removeItem('userID');
         signInOut();
@@ -38,8 +38,9 @@ function signInOut() {
     var userID = localStorage.getItem('userID');
     if (userID) {
         $('#signIn').hide();
+        $('#logout').show();
+        $('#userImge').show();
         $.getJSON('GetPeople?userID=' + userID, function (data) {
-            console.log("data", data);
 
             $("#userImage").attr('src', data.person.picture);
             $("#userImage").attr('title', data.person.name);
@@ -47,5 +48,7 @@ function signInOut() {
 
     } else {
         $('#logout').hide();
+        $('#userImge').hide();
+        $('#signIn').show();
     }
 }
