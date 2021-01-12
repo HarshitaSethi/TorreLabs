@@ -9,13 +9,13 @@ $(document).ready(function () {
         $("nav ul").toggleClass("showing");
     });
 
-    var userID = localStorage.getItem('userID');
-    if (userID) {
-        $('#signIn').style('display', 'none');
-    } else {
-        $('#username').hide();
-    }
 
+    signInOut();
+    
+    $('#logout').on('click', function () {
+        localStorage.removeItem('userID');
+        signInOut();
+    });
 });
 
 // Scrolling Effect
@@ -32,4 +32,20 @@ function saveUserID(form) {
     localStorage.setItem('userID', form.userID.value);
     location.reload();
     return false;
+}
+
+function signInOut() {
+    var userID = localStorage.getItem('userID');
+    if (userID) {
+        $('#signIn').hide();
+        $.getJSON('GetPeople?userID=' + userID, function (data) {
+            console.log("data", data);
+
+            $("#userImage").attr('src', data.person.picture);
+            $("#userImage").attr('title', data.person.name);
+        });
+
+    } else {
+        $('#logout').hide();
+    }
 }

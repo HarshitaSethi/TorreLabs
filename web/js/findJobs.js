@@ -14,7 +14,7 @@ app.factory('RestService', ['$http', '$q', function chatServiceFactory($http, $q
                 return $http.post('https://search.torre.co/opportunities/_search/?offset=0&size=0&aggregate=true');
             },
             getJobsList: function (filters) {
-                var url = "https://search.torre.co/opportunities/_search/?offset=" + offset + "&size=20&aggregate=false";
+                var url = "https://search.torre.co/opportunities/_search/?offset=" + offset + "&size=20&aggregate=true";
                 return $http.post(url, filters);
             }
         };
@@ -78,6 +78,14 @@ app.controller('JobController', ['RestService', '$scope', '$compile', '$timeout'
 
             console.log($scope.postData)
             RestService.getJobsList($scope.postData).then(function (response) {
+                $scope.aggregators = response.data.aggregators;
+                $scope.totalResult = response.data.total;
+                for (var item in $scope.aggregators.remote) {
+                    if ($scope.aggregators.remote[item].value.toLowerCase() == "yes") {
+                        $scope.remoteJobsCount = $scope.aggregators.remote[item].total;
+                        break;
+                    }
+                }
                 $scope.resultObtained = true;
                 $scope.searchJobList = response.data.results;
                 $scope.offset = response.data.offset;
